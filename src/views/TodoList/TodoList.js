@@ -1,30 +1,14 @@
-import {Fragment, useState} from 'react'
+import {Fragment, useContext, useState} from 'react'
 import './TodoList.css';
+import {TodoListContext} from '../../context/TodoListContext'
 import TodoItem from '../../components/Todoitem';
 import { useHistory } from "react-router-dom";
 
-const sampleTodolist=[
-  {
-    id:0,
-    title:'sample1',
-    description:'sample01',
-  },
-  {
-    id:1,
-    title:'sample2',
-    description:'sample02',
-  },
-  {
-    id:2,
-    title:'sample3',
-    description:'sample03',
-  }
-  ];
 
 const TodoList = () => {
   const [title, setTitle]= useState('');
   const [description, setDescription]= useState('');
-  const [todoList, setTodoList]= useState(sampleTodolist);
+  const {todoList, setTodoList}= useContext(TodoListContext);
 
   const history = useHistory();
 
@@ -36,8 +20,11 @@ const TodoList = () => {
   }
 
   const clickedButton=(e)=>{
+    let newId = 0;
+    if(todoList.length > 0){
+      newId = Math.max(...todoList.map((todo)=>todo.id)) + 1;
+    }
     const newTodolist=todoList.slice();
-    let newId=Math.max(...todoList.map((todo)=>todo.id))+1;
     const newTodo={
       id:newId++,
       title:title,
