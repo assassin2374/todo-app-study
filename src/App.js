@@ -1,26 +1,12 @@
-import {Fragment, useState} from 'react'
 import './App.css';
+import TodoList from './views/TodoList/TodoList';
 
 const App = () => {
-  const [text, setText]= useState('');
-
-  const changeText=(e)=>{
-    setText(e.target.value);
-  }
-
-  const clickedButton=(e)=>{
-    alert(text)
-  }
-
   return (
-    <Fragment>
-      <h1>test</h1>
-      <input type='text' value={text} onChange={changeText} />
-      <br />
-      <button onClick={clickedButton} >Click!!</button>
-      <br />
-    </Fragment>
-  );
+    <div className='App'>
+      <TodoList />
+    </div>
+  )
 }
 
 export default App;
