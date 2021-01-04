@@ -20,6 +20,7 @@ const TodoList = () => {
   }
 
   const clickedButton=(e)=>{
+    if(title==='' || description==='')return;
     let newId = 0;
     if(todoList.length > 0){
       newId = Math.max(...todoList.map((todo)=>todo.id)) + 1;
@@ -34,7 +35,6 @@ const TodoList = () => {
     setTodoList(newTodolist);
     setTitle('');
     setDescription('');
-    console.log({todoList})
   }
 
   return (
