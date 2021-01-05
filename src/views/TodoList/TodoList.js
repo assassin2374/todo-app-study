@@ -4,6 +4,7 @@ import {TodoListContext} from '../../context/TodoListContext'
 import TodoItem from '../../components/Todoitem';
 import { useHistory } from "react-router-dom";
 
+import axios from 'axios';
 
 const TodoList = () => {
   const [title, setTitle]= useState('');
@@ -12,6 +13,23 @@ const TodoList = () => {
 
   const history = useHistory();
 
+  let user='';
+  const getUsers=()=>{
+    axios.get(
+      'https://api-creator.tk/react-lesson/todos')
+      .then(response => {
+        user=response.data;
+        user.forEach((todo)=>{
+          if(typeof(todo.id)=='string'){
+            todo.id=parseInt(todo.id, 10);
+          }
+        })
+        setTodoList(user);
+        console.log(todoList);
+      }
+    )
+  }
+  
   const changeTitle=(e)=>{
     setTitle(e.target.value);
   }
@@ -59,6 +77,10 @@ const TodoList = () => {
           className='todo-add-button' 
           onClick={clickedButton} 
         >Click!!</button>
+        <button className='todo-add-button' 
+          onClick={getUsers} 
+        >user data get!!
+        </button>
       </div>
       {todoList.map((todo)=>{
         return<TodoItem todo={todo} key={todo.id} onClick={()=> history.push(`/edit/${todo.id}`)}/>;
