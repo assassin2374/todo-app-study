@@ -13,18 +13,18 @@ const TodoList = () => {
 
   const history = useHistory();
 
-  let user='';
+  let users='';
   const getUsers=()=>{
     axios.get(
       'https://api-creator.tk/react-lesson/todos')
       .then(response => {
-        user=response.data;
-        user.forEach((todo)=>{
-          if(typeof(todo.id)=='string'){
-            todo.id=parseInt(todo.id, 10);
+        users=response.data;
+        users.forEach((user)=>{
+          if(typeof(user.id)=='string'){
+            user.id=parseInt(user.id, 10);
           }
         })
-        setTodoList(user);
+        setTodoList(users);
         console.log(todoList);
       }
     )
