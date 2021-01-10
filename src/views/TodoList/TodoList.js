@@ -1,4 +1,4 @@
-import {Fragment, useContext, useState} from 'react'
+import {Fragment, useEffect, useContext, useState} from 'react'
 import './TodoList.css';
 import {TodoListContext} from '../../context/TodoListContext'
 import TodoItem from '../../components/Todoitem';
@@ -13,10 +13,17 @@ const TodoList = () => {
 
   const history = useHistory();
 
+  useEffect(()=>{
+    const getTodolist = async()=>{
+      const response = await axios.get('todos');
+      setTodoList(response.data);
+    };
+    getTodolist();
+  }, [setTodoList]);
+
   let users='';
   const getUsers=()=>{
-    axios.get(
-      'https://api-creator.tk/react-lesson/todos')
+    axios.get('todos')
       .then(response => {
         users=response.data;
         users.forEach((user)=>{
@@ -37,7 +44,7 @@ const TodoList = () => {
     setDescription(e.target.value);
   }
 
-  const clickedButton=(e)=>{
+  const clickedButton=async(e)=>{
     if(title==='' || description==='')return;
     let newId = 0;
     if(todoList.length > 0){
@@ -49,6 +56,9 @@ const TodoList = () => {
       title:title,
       description:description,
     };
+
+    await axios.post('todos', newTodo);
+
     newTodolist.push(newTodo);
     setTodoList(newTodolist);
     setTitle('');
